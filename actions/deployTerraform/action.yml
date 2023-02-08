@@ -60,12 +60,12 @@ runs:
       shell: bash
       run: |
           touch backend.tfvars
-          echo storage_account_name = "infrastorage12" >> backend.tfvars
+          echo storage_account_name="infrastorage12" >> backend.tfvars
           echo container_name="terraform" >> backend.tfvars
-          echo key = "local123.tfstate" >> backend.tfvars
-          echo resource_group_name = "obfuscaion-project-mohamed" >> backend.tfvars
-          echo subscription_id = "aa27a1b3-530a-4637-a1e6-6855033a65e5" >> backend.tfvars
-          echo tenant_id = "16b3c013-d300-468d-ac64-7eda0820b6d3" >> backend.tfvars
+          echo key="local123.tfstate" >> backend.tfvars
+          echo resource_group_name="obfuscaion-project-mohamed" >> backend.tfvars
+          echo subscription_id="aa27a1b3-530a-4637-a1e6-6855033a65e5" >> backend.tfvars
+          echo tenant_id="16b3c013-d300-468d-ac64-7eda0820b6d3" >> backend.tfvars
           cat backend.tfvars
 
 #TODO: investigate below errors
