@@ -139,12 +139,12 @@ runs:
       if: github.event_name == 'push'
       run: terraform apply --var "environment=${{inputs.ENVIRONMENT}}" -auto-approve -input=false
 
-    - name: Terraform output
-      id: terraform-output
-      shell: bash
-      working-directory: ${{inputs.TERRAFORM_DIR}}
-      if: github.event_name == 'push'
-      run: |
-        FUNCTION_NAME=$(terraform output function_name)
-        echo "::set-output name=function-name::$(echo $FUNCTION_NAME)"
-        echo "Function name is ${FUNCTION_NAME}"
+    # - name: Terraform output
+    #   id: terraform-output
+    #   shell: bash
+    #   working-directory: ${{inputs.TERRAFORM_DIR}}
+    #   if: github.event_name == 'push'
+    #   run: |
+    #     FUNCTION_NAME=$(terraform output function_name)
+    #     echo "::set-output name=function-name::$(echo $FUNCTION_NAME)"
+    #     echo "Function name is ${FUNCTION_NAME}"
