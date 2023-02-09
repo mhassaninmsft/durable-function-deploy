@@ -1,0 +1,55 @@
+name: "Terraform"
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+env:
+  ARM_CLIENT_ID: 'a5f280a9-a44f-4303-884e-824173e0c360'
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: 'aa27a1b3-530a-4637-a1e6-6855033a65e5'
+  ARM_TENANT_ID: '16b3c013-d300-468d-ac64-7eda0820b6d3'
+jobs:
+  dev-env:
+    name: "Dev Enviornment"
+    runs-on: ubuntu-latest
+    permissions: write-all
+    environment: dev
+    defaults:
+      run:
+        working-directory: ./deploy/terraform
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Deploy Terraform Enviornment
+        uses: ./actions/deployTerraform
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ENVIRONMENT: dev
+          TERRAFORM_DIR: ./infra
+
+  testPromotion:
+    if: github.event_name == 'push'
+    permissions: write-all
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        # with:
+        #   ref: production
+      - name: Reset promotion branch
+        run: |
+          git fetch origin dev
+          git reset --hard dev
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          # branch: test
+          commit-message: update Test brach
+          title: Update Test branch
+          body: Update changelog to reflect release changes
+          branch: test
+          base: test-final # Branch where PR is opneed against
