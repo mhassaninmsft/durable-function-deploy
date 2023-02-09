@@ -31,3 +31,19 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ENVIRONMENT: dev
           TERRAFORM_DIR: ./infra
+
+  testPromotion:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: production
+      - name: Reset promotion branch
+        run: |
+          git fetch origin dev:dev
+          git reset --hard dev
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          branch: test
