@@ -37,8 +37,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          ref: production
+        # with:
+        #   ref: production
       - name: Reset promotion branch
         run: |
           git fetch origin dev:dev
