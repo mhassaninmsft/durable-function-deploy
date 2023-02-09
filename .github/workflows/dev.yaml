@@ -16,6 +16,7 @@ jobs:
   dev-env:
     name: "Dev Enviornment"
     runs-on: ubuntu-latest
+    permissions: write-all
     environment: dev
     defaults:
       run:
