@@ -32,24 +32,52 @@ jobs:
           ENVIRONMENT: dev
           TERRAFORM_DIR: ./infra
 
+
   testPromotion:
-    if: github.event_name == 'push'
+    # if: github.event_name == 'push'
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        # with:
-        #   ref: production
-      - name: Reset promotion branch
-        run: |
-          git fetch origin dev
-          git reset --hard dev
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4
+
+      - name: Run the Action
+        uses: devops-infra/action-pull-request@v0.5.3
         with:
-          # branch: test
-          commit-message: update Test brach
-          title: Update Test branch
-          body: Update changelog to reflect release changes
-          branch: test
-          base: test-final # Branch where PR is opneed against
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          source_branch: dev
+          target_branch: test
+          title: My pull request
+          # template: .github/PULL_REQUEST_TEMPLATE.md
+          body: "**Automated pull request**"
+          # reviewer: octocat
+          # assignee: octocat
+          label: enhancement
+          # milestone: My milestone
+          # draft: true
+          # old_string: "<!-- Add your description here -->"
+          # new_string: "** Automatic pull request**"
+          get_diff: true
+          ignore_users: "dependabot"
+          allow_no_diff: false
+
+  # testPromotion:
+  #   if: github.event_name == 'push'
+  #   permissions: write-all
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       # with:
+  #       #   ref: production
+  #     - name: Reset promotion branch
+  #       run: |
+  #         git fetch origin dev
+  #         git reset --hard dev
+  #     - name: Create Pull Request
+  #       uses: peter-evans/create-pull-request@v4
+  #       with:
+  #         # branch: test
+  #         commit-message: update Test brach
+  #         title: Update Test branch
+  #         body: Update changelog to reflect release changes
+  #         branch: test
+  #         base: test-final # Branch where PR is opneed against
